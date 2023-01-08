@@ -1,7 +1,8 @@
 /** Customer for Lunchly */
 
-const db = require("../db");
-const Reservation = require("./reservation");
+const db = require('../db');
+const ExpressError = require('../expressError');
+const Reservation = require('./reservation');
 
 /** Customer of the restaurant. */
 
@@ -12,8 +13,31 @@ class Customer {
     this.lastName = lastName;
     this.phone = phone;
     this.notes = notes;
+    this.getFullName();
   }
 
+  static async findMe(partName) {
+    const results = await db.query(
+      `SELECT id, first_name AS "firstName", last_name AS "lastName", phone, notes
+    FROM customers 
+    WHERE first_name LIKE $1 OR 
+    last_name  LIKE $1`,
+      ['%' + partName + '%']
+    );
+    console.log(results.rows.length);
+
+    let theCustomers = results.rows.map((c) => new Customer(c));
+    // console.log(theCustomers);
+
+    // console.log(theCustomers);
+    return theCustomers;
+  }
+
+  getFullName() {
+    const fullName = this.firstName + ' ' + this.lastName;
+    // console.log(fullName);
+    return fullName;
+  }
   /** find all customers. */
 
   static async all() {
@@ -26,7 +50,7 @@ class Customer {
        FROM customers
        ORDER BY last_name, first_name`
     );
-    return results.rows.map(c => new Customer(c));
+    return results.rows.map((c) => new Customer(c));
   }
 
   /** get a customer by ID. */

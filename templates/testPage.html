@@ -7,9 +7,16 @@
 <h1>Customers</h1>
 
 <ul style="column-count: 4">
-  {% for customer in customers %}
-  <li><a href="/{{ customer.id }}/">{{ customer.getFullName() }}</a></li>
-  {% endfor %}
+    <!-- {{ customers }} -->
+
+    {% for customer in customers %}
+    <li><a href="/{{ customer.id }}/">{{ customer.getFullName() }}</a></li>
+    {% endfor %}
+
+    <font color="red">{{newErr.message}}</font>
+
+
+
 </ul>
 
 {% endblock %}

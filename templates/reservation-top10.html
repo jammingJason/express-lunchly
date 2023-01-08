@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Top 10 Reservations{% endblock %}
+{% block content %}
+
+<a class="btn btn-primary" style="float: right" href="/add/">Add a Customer</a></p>
+
+<h1>Reservations</h1>
+
+
+<ul style="column-count: 4">
+
+    {% for res in reservations %}
+
+    <li>{{ res.numOfRes }} reservations for
+        <a href="/{{res.custID}}">{{res.firstName}} {{res.lastName}}</a>
+    </li>
+
+    {% endfor %}
+</ul>
+
+{% endblock %}
